@@ -1,9 +1,8 @@
 "use client";
 
-import { TaskCard } from "@/components/Task/TaskCard";
-import { TaskDialog, TaskFormData } from "@/components/Task/TaskDialog";
+import { TaskCard } from "@/components/task/TaskCard";
+import { TaskDialog, TaskFormData } from "@/components/task/TaskDialog";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 
 const mockTasks = [
   {
@@ -62,11 +61,9 @@ export default function DashboardPage() {
   };
 
   return (
-    <main className="min-h-screen p-6 bg-gray-50 dark:bg-background">
-      <h1 className="text-2xl font-bold mb-4">My Tasks</h1>
-      <Separator className="mb-6" />
+    <main className="min-h-screen p-6 dark:bg-background">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold">Tasks</h2>
+        <h2 className="text-xl font-semibold">All Tasks</h2>
         <TaskDialog
           mode="create"
           onSubmit={handleCreate}

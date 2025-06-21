@@ -9,7 +9,7 @@ export const ROUTES = {
   LOGIN: "/auth/login",
   REGISTER: "/auth/register",
   DASHBOARD: "/dashboard",
-  PROFILE: "/profile",
+  PROFILE: "/dashboard/profile",
   USERS: "/admin/users",
 };
 
