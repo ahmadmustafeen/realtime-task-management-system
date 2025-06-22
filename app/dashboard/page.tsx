@@ -1,10 +1,10 @@
 "use client";
 
-import { TaskCard } from "../../components/task/TaskCard";
-import { TaskDialog, TaskFormData } from "../../components/task/TaskDialog";
-import { Button } from "../../components/ui/button";
-import { useAuth } from "../../context/AuthContext";
-import { useTasks } from "../../context/TaskContext";
+import { TaskCard } from "@/components/Task/TaskCard";
+import { TaskDialog, TaskFormData } from "@/components/Task/TaskDialog";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/AuthContext";
+import { useTasks } from "@/context/TaskContext";
 
 function DashboardPage() {
   const { user } = useAuth();
@@ -12,7 +12,6 @@ function DashboardPage() {
 
   const handleCreate = (data: TaskFormData) => {
     createTask({ ...data, createdBy: user?.id });
-    alert("Task created successfully");
   };
 
   return (
