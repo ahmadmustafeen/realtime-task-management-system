@@ -9,6 +9,8 @@ import React, {
 } from "react";
 import api, { API_ROUTES } from "@/lib/api"; // Adjust based on your api setup
 
+import { io, Socket } from "socket.io-client";
+
 export type Task = {
   id: string;
   title: string;
@@ -33,6 +35,9 @@ type TaskContextType = {
 
 const TaskContext = createContext<TaskContextType | undefined>(undefined);
 
+const socket: Socket = io("http://localhost:3000", {
+  transports: ["websocket"],
+});
 export const TaskProvider = ({ children }: { children: ReactNode }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -48,6 +53,22 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    socket.on("taskCreated", (newTask: Task) => {
+      setTasks((prev) => [...prev, newTask]);
+    });
+
+    socket.on("taskUpdated", (updatedTask: Task) => {
+      setTasks((prev) =>
+        prev.map((task) => (task.id === updatedTask.id ? updatedTask : task))
+      );
+    });
+
+    socket.on("taskDeleted", (taskId: string) => {
+      setTasks((prev) => prev.filter((task) => task.id !== taskId));
+    });
+  }, []);
 
   const createTask = async (task: Partial<Task>) => {
     try {
@@ -72,7 +93,9 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <TaskContext.Provider value={{ tasks, loading, fetchTasks, createTask, updateTask }}>
+    <TaskContext.Provider
+      value={{ tasks, loading, fetchTasks, createTask, updateTask }}
+    >
       {children}
     </TaskContext.Provider>
   );

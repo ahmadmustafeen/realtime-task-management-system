@@ -9,7 +9,6 @@ function DashboardPage() {
   const { tasks, createTask, loading } = useTasks();
 
   const handleCreate = (data: TaskFormData) => {
-    console.log("Create task →", data);
     createTask(data);
   };
 
