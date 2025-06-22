@@ -28,8 +28,8 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import axios from "axios";
-import { USER_ROLES } from "@/lib/constants";
+import { ROUTES, USER_ROLES } from "@/lib/constants";
+import { useAuth } from "@/context/AuthContext";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is too short"),
@@ -40,8 +40,9 @@ const formSchema = z.object({
   }),
 });
 
-export default function RegisterPage() {
+function RegisterPage() {
   const router = useRouter();
+  const { register } = useAuth();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -55,8 +56,8 @@ export default function RegisterPage() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.post("/api/auth/register", values);
-      router.push("/login");
+      await register(values);
+      router.push(ROUTES.DASHBOARD);
     } catch (error) {
       console.log(error);
     }
@@ -154,3 +155,5 @@ export default function RegisterPage() {
     </div>
   );
 }
+
+export default RegisterPage;

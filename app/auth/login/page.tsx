@@ -21,17 +21,18 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import axios from "axios";
 import { ROUTES } from "@/lib/constants";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email"),
   password: z.string().min(4, "Password must be at least 4 characters"),
 });
 
-export default function LoginPage() {
+function LoginPage() {
   const router = useRouter();
+  const { login } = useAuth();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -43,13 +44,10 @@ export default function LoginPage() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const res = await axios.post("/api/auth/login", values);
-      localStorage.setItem("token", res.data.token);
-      //   toast("Logged in successfully");
+      await login(values);
       router.push(ROUTES.DASHBOARD);
     } catch (err) {
-      console.log(err);
-      //   toast("Login failed");
+      console.error("Login error:", err);
     }
   };
 
@@ -108,3 +106,5 @@ export default function LoginPage() {
     </div>
   );
 }
+
+export default LoginPage;

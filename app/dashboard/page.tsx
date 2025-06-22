@@ -55,7 +55,7 @@ const mockTasks = [
     createdBy: "John",
   },
 ];
-export default function DashboardPage() {
+function DashboardPage() {
   const handleCreate = (data: TaskFormData) => {
     console.log("Create task →", data);
   };
@@ -79,3 +79,5 @@ export default function DashboardPage() {
     </main>
   );
 }
+
+export default DashboardPage;
