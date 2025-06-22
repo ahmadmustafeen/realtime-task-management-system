@@ -36,7 +36,7 @@ type TaskContextType = {
 
 const TaskContext = createContext<TaskContextType | undefined>(undefined);
 
-const socket: Socket = io("http://localhost:3000", {
+const socket: Socket = io(process.env.NEXT_PUBLIC_API_URL!, {
   transports: ["websocket"],
 });
 export const TaskProvider = ({ children }: { children: ReactNode }) => {
@@ -54,7 +54,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
     }
   };
-   
+
   const resetTasks = () => setTasks([]);
 
   useEffect(() => {
