@@ -109,7 +109,6 @@ export function TaskCard({
               description,
               status,
               priority,
-              createdBy,
               assignedTo,
             }}
             onSubmit={handleEdit}
