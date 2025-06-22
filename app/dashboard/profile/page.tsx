@@ -14,36 +14,33 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { useAuth } from "@/context/AuthContext";
+import { useUsers } from "@/context/UsersContext";
 
 // Define validation schema
 const profileSchema = z.object({
   name: z.string().min(2, "Name is too short"),
   email: z.string().email("Invalid email"),
-  password: z.string().min(6, "Password too short").optional(),
+  password: z.string().optional(),
 });
 
 type ProfileFormData = z.infer<typeof profileSchema>;
 
 export default function ProfilePage() {
+  const { user } = useAuth();
+  const { updateUser } = useUsers();
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      name: "John Doe", // Replace with fetched data
-      email: "john@example.com",
+      name: user?.name, // Replace with fetched data
+      email: user?.email,
       password: "",
     },
   });
 
   const handleSubmit = async (data: ProfileFormData) => {
     try {
-      await fetch("/api/users/me", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(data),
-      });
+      updateUser(user?.id as string, data);
     } catch (error) {
       console.error("Update failed:", error);
     }
@@ -78,6 +75,7 @@ export default function ProfilePage() {
               <FormField
                 control={form.control}
                 name="email"
+                disabled
                 render={({ field }) => (
                   <FormItem>
                     <Label>Email</Label>

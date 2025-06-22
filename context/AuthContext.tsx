@@ -30,6 +30,7 @@ interface AuthContextType {
   register: (details: RegisterDetails) => Promise<void>;
   resetUser: () => void;
   logout: () => void;
+  setUser: (user: User | null) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -71,7 +72,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const resetUser = () => setUser(null);
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, resetUser }}>
+    <AuthContext.Provider value={{ user, login, register, logout, resetUser,setUser }}>
       {children}
     </AuthContext.Provider>
   );
