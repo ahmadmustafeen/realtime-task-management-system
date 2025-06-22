@@ -16,6 +16,11 @@ export const API_ROUTES = {
     ALL: "/users",
     BY_ID: (id: string) => `/users/${id}`,
   },
+  TASKS: {
+    ALL: "/tasks",
+    CREATE: "/tasks",
+    BY_ID: (id: string) => `/tasks/${id}`,
+  },
 };
 
 export default api;

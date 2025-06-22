@@ -6,7 +6,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
 } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -15,25 +14,30 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { TaskDialog, TaskFormData } from "./TaskDialog";
 import { EditIcon } from "lucide-react";
+import { useTasks } from "@/context/TaskContext";
 
 type TaskCardProps = {
   title: string;
   description: string;
+  id: string;
   status: "todo" | "in_progress" | "done";
   priority: "low" | "medium" | "high";
   createdBy: string;
+  assignedTo: string;
   createdAt?: string;
 };
 
 export function TaskCard({
   title,
   description,
+  id,
   status,
   priority,
   createdBy,
-  createdAt,
+  assignedTo,
 }: TaskCardProps) {
   const [open, setOpen] = useState(false);
+  const { updateTask } = useTasks();
 
   const statusColors: Record<string, string> = {
     todo: "bg-gray-200 text-gray-800",
@@ -48,7 +52,8 @@ export function TaskCard({
   };
 
   const handleEdit = (data: TaskFormData) => {
-    console.log("Edit task →", data);
+    if (!id) return;
+    updateTask({ id, ...data });
   };
 
   return (
@@ -64,20 +69,30 @@ export function TaskCard({
               {priority}
             </Badge>
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent>
             <p className="text-sm text-muted-foreground line-clamp-2">
               {description}
             </p>
             <div className="flex items-center justify-between text-xs mt-2">
               <div className="flex items-center gap-2">
                 <Avatar className="h-6 w-6">
-                  <AvatarFallback>{createdBy[0]}</AvatarFallback>
+                  <AvatarFallback className="capitalize">
+                    {createdBy[0]}
+                  </AvatarFallback>
                 </Avatar>
-                <span className="text-muted-foreground">{createdBy}</span>
               </div>
+
               <Badge className={cn("capitalize", statusColors[status])}>
                 {status.replace("_", " ")}
               </Badge>
+            </div>
+            <div className="flex items-center justify-between text-xs mt-4">
+              <span className="text-xs text-muted-foreground text-left">
+                Created By: {createdBy}
+              </span>
+              <span className="text-xs text-muted-foreground text-right">
+                Assigned To: {assignedTo}
+              </span>
             </div>
           </CardContent>
         </Card>
@@ -93,15 +108,14 @@ export function TaskCard({
               status,
               priority,
               createdBy,
+              assignedTo,
             }}
             onSubmit={handleEdit}
-            trigger={<EditIcon className="w-6 h-6 absolute bottom-3 right-3 cursor-pointer" />}
+            trigger={
+              <EditIcon className="w-6 h-6 absolute bottom-3 right-3 cursor-pointer" />
+            }
           />
           <DialogTitle>{title}</DialogTitle>
-          <DialogDescription className="text-sm text-muted-foreground">
-            Created by <strong>{createdBy}</strong>{" "}
-            {createdAt ? `on ${createdAt}` : ""}
-          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 mt-4">
@@ -130,6 +144,22 @@ export function TaskCard({
               >
                 {priority}
               </Badge>
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4">
+              <span className="text-xs font-medium text-muted-foreground">
+                Created By
+              </span>
+              <span className="text-xs text-muted-foreground">{createdBy}</span>
+            </div>
+            <div className="flex items-center gap-4">
+              <span className="text-xs font-medium text-muted-foreground">
+                Assigned To
+              </span>
+              <span className="text-xs text-muted-foreground">
+                {assignedTo}
+              </span>
             </div>
           </div>
         </div>

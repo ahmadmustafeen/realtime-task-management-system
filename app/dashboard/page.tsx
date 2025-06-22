@@ -3,61 +3,14 @@
 import { TaskCard } from "@/components/task/TaskCard";
 import { TaskDialog, TaskFormData } from "@/components/task/TaskDialog";
 import { Button } from "@/components/ui/button";
+import { useTasks } from "@/context/TaskContext";
 
-const mockTasks = [
-  {
-    title: "Fix navbar bug",
-    description: "Users can't click the mobile menu due to z-index issue.",
-    status: "in_progress" as const,
-    priority: "high" as const,
-    createdBy: "Adeel",
-  },
-  {
-    title: "Add task filter",
-    description: "Implement dropdown to filter tasks by status and priority.",
-    status: "todo" as const,
-    priority: "medium" as const,
-    createdBy: "Sara",
-  },
-  {
-    title: "Refactor Auth Context",
-    description: "Split auth logic into separate utils and hooks.",
-    status: "done" as const,
-    priority: "low" as const,
-    createdBy: "John",
-  },
-  {
-    title: "Add task filter",
-    description: "Implement dropdown to filter tasks by status and priority.",
-    status: "todo" as const,
-    priority: "medium" as const,
-    createdBy: "Sara",
-  },
-  {
-    title: "Refactor Auth Context",
-    description: "Split auth logic into separate utils and hooks.",
-    status: "done" as const,
-    priority: "low" as const,
-    createdBy: "John",
-  },
-  {
-    title: "Add task filter",
-    description: "Implement dropdown to filter tasks by status and priority.",
-    status: "todo" as const,
-    priority: "medium" as const,
-    createdBy: "Sara",
-  },
-  {
-    title: "Refactor Auth Context",
-    description: "Split auth logic into separate utils and hooks.",
-    status: "done" as const,
-    priority: "low" as const,
-    createdBy: "John",
-  },
-];
 function DashboardPage() {
+  const { tasks, createTask, loading } = useTasks();
+
   const handleCreate = (data: TaskFormData) => {
     console.log("Create task →", data);
+    createTask(data);
   };
 
   return (
@@ -72,9 +25,13 @@ function DashboardPage() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {mockTasks.map((task, i) => (
-          <TaskCard key={i} {...task} />
-        ))}
+        {loading ? (
+          <p>Loading tasks...</p>
+        ) : (
+          tasks?.map((task, i) => (
+            <TaskCard key={i} {...task} />
+          ))
+        )}
       </div>
     </main>
   );
