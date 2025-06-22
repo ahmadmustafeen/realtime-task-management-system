@@ -3,19 +3,19 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "../../../components/ui/input";
+import { Label } from "../../../components/ui/label";
+import { Button } from "../../../components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from "@/components/ui/form";
-import { useAuth } from "@/context/AuthContext";
-import { useUsers } from "@/context/UsersContext";
+} from "../../../components/ui/form";
+import { useAuth } from "../../../context/AuthContext";
+import { useUsers } from "../../../context/UsersContext";
 
 // Define validation schema
 const profileSchema = z.object({

@@ -1,10 +1,10 @@
 "use client";
 
-import { TaskCard } from "@/components/task/TaskCard";
-import { TaskDialog, TaskFormData } from "@/components/task/TaskDialog";
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/context/AuthContext";
-import { useTasks } from "@/context/TaskContext";
+import { TaskCard } from "../../components/task/TaskCard";
+import { TaskDialog, TaskFormData } from "../../components/task/TaskDialog";
+import { Button } from "../../components/ui/button";
+import { useAuth } from "../../context/AuthContext";
+import { useTasks } from "../../context/TaskContext";
 
 function DashboardPage() {
   const { user } = useAuth();

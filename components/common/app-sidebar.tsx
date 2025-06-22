@@ -11,11 +11,11 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
-import { ROUTES } from "@/lib/constants";
-import { useAuth } from "@/context/AuthContext";
-import { useTasks } from "@/context/TaskContext";
-import { useUsers } from "@/context/UsersContext";
+} from "../../components/ui/sidebar";
+import { ROUTES } from "../../lib/constants";
+import { useAuth } from "../../context/AuthContext";
+import { useTasks } from "../../context/TaskContext";
+import { useUsers } from "../../context/UsersContext";
 
 export function AppSidebar() {
   const router = useRouter();

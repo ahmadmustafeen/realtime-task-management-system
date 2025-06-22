@@ -10,26 +10,26 @@ import {
   CardTitle,
   CardContent,
   CardFooter,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "../../../components/ui/card";
+import { Button } from "../../../components/ui/button";
+import { Input } from "../../../components/ui/input";
+import { Label } from "../../../components/ui/label";
 import {
   Select,
   SelectTrigger,
   SelectContent,
   SelectItem,
   SelectValue,
-} from "@/components/ui/select";
+} from "../../../components/ui/select";
 import {
   Form,
   FormField,
   FormItem,
   FormControl,
   FormMessage,
-} from "@/components/ui/form";
-import { ROUTES, USER_ROLES } from "@/lib/constants";
-import { useAuth } from "@/context/AuthContext";
+} from "../../../components/ui/form";
+import { ROUTES, USER_ROLES } from "../../../lib/constants";
+import { useAuth } from "../../../context/AuthContext";
 import Link from "next/link";
 
 const formSchema = z.object({

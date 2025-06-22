@@ -6,16 +6,16 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { cn } from "@/lib/utils";
+} from "../../components/ui/dialog";
+import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import { Badge } from "../../components/ui/badge";
+import { Avatar, AvatarFallback } from "../../components/ui/avatar";
+import { cn } from "../../lib/utils";
 import { useState } from "react";
 import { TaskDialog, TaskFormData } from "./TaskDialog";
 import { EditIcon } from "lucide-react";
-import { useTasks } from "@/context/TaskContext";
-import { useUsers } from "@/context/UsersContext";
+import { useTasks } from "../../context/TaskContext";
+import { useUsers } from "../../context/UsersContext";
 
 type TaskCardProps = {
   title: string;
