@@ -3,6 +3,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/common/app-sidebar";
 import { AuthProvider } from "@/context/AuthContext";
 import { TaskProvider } from "@/context/TaskContext";
+import { UsersProvider } from "@/context/UsersContext";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,11 +18,13 @@ export default function RootLayout({
   return (
     <AuthProvider>
       <TaskProvider>
+        <UsersProvider>
         <SidebarProvider>
           <AppSidebar />
           <SidebarTrigger />
           <main>{children}</main>
         </SidebarProvider>
+        </UsersProvider>
       </TaskProvider>
     </AuthProvider>
   );

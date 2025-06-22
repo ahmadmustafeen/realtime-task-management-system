@@ -32,6 +32,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { useUsers } from "@/context/UsersContext";
 
 const taskSchema = z.object({
   title: z.string().min(2, "Title is required"),
@@ -59,6 +60,7 @@ export function TaskDialog({
 }: TaskDialogProps) {
   const [open, setOpen] = useState(false);
   const { user } = useAuth();
+  const { users } = useUsers();
 
   const form = useForm<TaskFormData>({
     resolver: zodResolver(taskSchema),
@@ -67,7 +69,7 @@ export function TaskDialog({
       description: "",
       priority: "medium",
       status: "todo",
-      assignedTo: user?.id || "",
+      assignedTo: "",
       createdBy: user?.id || "",
     },
   });
@@ -192,11 +194,12 @@ export function TaskDialog({
             <FormField
               control={form.control}
               name="createdBy"
+              disabled
               render={({ field }) => (
                 <FormItem>
                   <Label>Created By</Label>
                   <FormControl>
-                    <Input placeholder="Your name" {...field} />
+                    <Input placeholder="Your name" {...field} value={users?.find((u) => u.id === field.value)?.name} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -209,7 +212,18 @@ export function TaskDialog({
                 <FormItem>
                   <Label>Assigned To</Label>
                   <FormControl>
-                    <Input placeholder="Assignee name" {...field} />
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a user" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {users.map((user) => (
+                          <SelectItem key={user.id} value={user.id}>
+                            {user.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -15,6 +15,7 @@ import { useState } from "react";
 import { TaskDialog, TaskFormData } from "./TaskDialog";
 import { EditIcon } from "lucide-react";
 import { useTasks } from "@/context/TaskContext";
+import { useUsers } from "@/context/UsersContext";
 
 type TaskCardProps = {
   title: string;
@@ -38,6 +39,7 @@ export function TaskCard({
 }: TaskCardProps) {
   const [open, setOpen] = useState(false);
   const { updateTask } = useTasks();
+  const { users } = useUsers();
 
   const statusColors: Record<string, string> = {
     todo: "bg-gray-200 text-gray-800",
@@ -88,10 +90,10 @@ export function TaskCard({
             </div>
             <div className="flex items-center justify-between text-xs mt-4">
               <span className="text-xs text-muted-foreground text-left">
-                Created By: {createdBy}
+                Created By: {users?.find((u) => u.id === createdBy)?.name}
               </span>
               <span className="text-xs text-muted-foreground text-right">
-                Assigned To: {assignedTo}
+                Assigned To: {users?.find((u) => u.id === assignedTo)?.name}
               </span>
             </div>
           </CardContent>
@@ -151,14 +153,16 @@ export function TaskCard({
               <span className="text-xs font-medium text-muted-foreground">
                 Created By
               </span>
-              <span className="text-xs text-muted-foreground">{createdBy}</span>
+              <span className="text-xs text-muted-foreground">
+                {users?.find((u) => u.id === createdBy)?.name}
+              </span>
             </div>
             <div className="flex items-center gap-4">
               <span className="text-xs font-medium text-muted-foreground">
                 Assigned To
               </span>
               <span className="text-xs text-muted-foreground">
-                {assignedTo}
+                {users?.find((u) => u.id === assignedTo)?.name}
               </span>
             </div>
           </div>
