@@ -3,13 +3,16 @@
 import { TaskCard } from "@/components/task/TaskCard";
 import { TaskDialog, TaskFormData } from "@/components/task/TaskDialog";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/AuthContext";
 import { useTasks } from "@/context/TaskContext";
 
 function DashboardPage() {
+  const { user } = useAuth();
   const { tasks, createTask, loading } = useTasks();
 
   const handleCreate = (data: TaskFormData) => {
-    createTask(data);
+    createTask({ ...data, createdBy: user?.id });
+    alert("Task created successfully");
   };
 
   return (

@@ -31,7 +31,6 @@ import {
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
-import { useAuth } from "@/context/AuthContext";
 import { useUsers } from "@/context/UsersContext";
 
 const taskSchema = z.object({
@@ -39,7 +38,6 @@ const taskSchema = z.object({
   description: z.string().optional(),
   priority: z.enum(["low", "medium", "high"]),
   status: z.enum(["todo", "in_progress", "done"]),
-  createdBy: z.string().min(2),
   assignedTo: z.string().min(2),
 });
 
@@ -59,7 +57,6 @@ export function TaskDialog({
   trigger,
 }: TaskDialogProps) {
   const [open, setOpen] = useState(false);
-  const { user } = useAuth();
   const { users } = useUsers();
 
   const form = useForm<TaskFormData>({
@@ -70,7 +67,6 @@ export function TaskDialog({
       priority: "medium",
       status: "todo",
       assignedTo: "",
-      createdBy: user?.id || "",
     },
   });
 
@@ -190,21 +186,6 @@ export function TaskDialog({
                 )}
               />
             </div>
-
-            <FormField
-              control={form.control}
-              name="createdBy"
-              disabled
-              render={({ field }) => (
-                <FormItem>
-                  <Label>Created By</Label>
-                  <FormControl>
-                    <Input placeholder="Your name" {...field} value={users?.find((u) => u.id === field.value)?.name} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="assignedTo"

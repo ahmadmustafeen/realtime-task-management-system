@@ -28,6 +28,7 @@ interface AuthContextType {
   user: User | null;
   login: (credentials: Credentials) => Promise<void>;
   register: (details: RegisterDetails) => Promise<void>;
+  resetUser: () => void;
   logout: () => void;
 }
 
@@ -65,8 +66,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setUser(null);
   };
 
+  const resetUser = () => setUser(null);
+
   return (
-    <AuthContext.Provider value={{ user, login, register, logout }}>
+    <AuthContext.Provider value={{ user, login, register, logout, resetUser }}>
       {children}
     </AuthContext.Provider>
   );

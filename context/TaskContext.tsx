@@ -31,6 +31,7 @@ type TaskContextType = {
   fetchTasks: () => Promise<void>;
   createTask: (task: Partial<Task>) => Promise<void>;
   updateTask: (task: Partial<Task>) => Promise<void>;
+  resetTasks: () => void;
 };
 
 const TaskContext = createContext<TaskContextType | undefined>(undefined);
@@ -53,6 +54,8 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
     }
   };
+   
+  const resetTasks = () => setTasks([]);
 
   useEffect(() => {
     socket.on("taskCreated", (newTask: Task) => {
@@ -72,8 +75,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
 
   const createTask = async (task: Partial<Task>) => {
     try {
-      const { data } = await api.post(API_ROUTES.TASKS.CREATE, task);
-      setTasks((prev) => [...prev, data]);
+      await api.post(API_ROUTES.TASKS.CREATE, task);
     } catch (error) {
       console.error("Failed to create task", error);
     }
@@ -81,8 +83,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
 
   const updateTask = async (task: Partial<Task>) => {
     try {
-      const { data } = await api.put(API_ROUTES.TASKS.BY_ID(task.id!), task);
-      setTasks((prev) => prev.map((t) => (t.id === task.id ? data : t)));
+      await api.put(API_ROUTES.TASKS.BY_ID(task.id!), task);
     } catch (error) {
       console.error("Failed to update task", error);
     }
@@ -94,7 +95,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <TaskContext.Provider
-      value={{ tasks, loading, fetchTasks, createTask, updateTask }}
+      value={{ tasks, loading, fetchTasks, createTask, updateTask, resetTasks }}
     >
       {children}
     </TaskContext.Provider>

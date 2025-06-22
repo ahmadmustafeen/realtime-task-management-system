@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/form";
 import { ROUTES, USER_ROLES } from "@/lib/constants";
 import { useAuth } from "@/context/AuthContext";
+import Link from "next/link";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is too short"),
@@ -147,9 +148,9 @@ function RegisterPage() {
         </CardContent>
         <CardFooter className="text-sm text-muted-foreground justify-center">
           Already have an account?{" "}
-          <a href="/login" className="ml-1 underline">
+          <Link href={ROUTES.LOGIN} className="ml-1 underline">
             Login
-          </a>
+          </Link>
         </CardFooter>
       </Card>
     </div>

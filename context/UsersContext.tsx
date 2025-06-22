@@ -24,6 +24,7 @@ type UsersContextType = {
   users: User[];
   loading: boolean;
   fetchUsers: () => Promise<void>;
+  resetUsers: () => void;
 };
 
 const UsersContext = createContext<UsersContextType | undefined>(undefined);
@@ -51,9 +52,10 @@ export const UsersProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     fetchUsers();
   }, []);
+  const resetUsers = () => setUsers([]);
 
   return (
-    <UsersContext.Provider value={{ users, loading, fetchUsers }}>
+    <UsersContext.Provider value={{ users, loading, fetchUsers, resetUsers }}>
       {children}
     </UsersContext.Provider>
   );
