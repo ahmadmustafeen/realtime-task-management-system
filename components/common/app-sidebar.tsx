@@ -26,6 +26,7 @@ export function AppSidebar() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("USER");
+    document.cookie = "token=; path=/; max-age=0";
     resetUser();
     resetTasks();
     resetUsers();

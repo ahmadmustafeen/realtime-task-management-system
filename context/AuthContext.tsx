@@ -45,6 +45,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const { data } = await api.post(API_ROUTES.AUTH.LOGIN, credentials);
     localStorage.setItem("token", data.token);
     localStorage.setItem("USER", JSON.stringify(data.user));
+    document.cookie = `token=${data.token}; path=/; max-age=86400`;
     setUser(data.user);
   };
 
@@ -52,6 +53,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const { data } = await api.post(API_ROUTES.AUTH.REGISTER, details);
     setUser(data.user);
     localStorage.setItem("token", data.token);
+    document.cookie = `token=${data.token}; path=/; max-age=86400`;
     localStorage.setItem("USER", JSON.stringify(data.user));
   };
 
